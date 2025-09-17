@@ -100,13 +100,13 @@ def train_conversation_model():
     print(f"  - Context length: {config.block_size}")
     print(f"  - Vocabulary size: {config.vocab_size}")
     
-    # Load large conversational data
-    data_path = os.path.join('datasets', 'large_conversation_training.txt')
+    # Load clean conversational data
+    data_path = os.path.join('datasets', 'clean_conversation_training.txt')
     if not os.path.exists(data_path):
-        print(f"Large conversation dataset not found: {data_path}")
+        print(f"Clean conversation dataset not found: {data_path}")
         return
     
-    print(f"\nLoading large conversation data from: {data_path}")
+    print(f"\nLoading clean conversation data from: {data_path}")
     
     # Load data in chunks to avoid memory issues
     chunk_size = 1024 * 1024  # 1MB chunks
