@@ -65,16 +65,16 @@ def train_conversation_model():
     
     # Hyperparameters (lightweight debug-friendly settings)
     micro_batch_size = 2     # per-step micro-batch
-    grad_accum_steps = 2     # keep iterations short for local verification
+    grad_accum_steps = 4     # medium accumulation for ~10 minute local runs
     batch_size = micro_batch_size  # keep API usage
-    block_size = 128         # shorter context for faster checks
-    max_iters = 20           # quick local verification
-    eval_interval = 5        # frequent progress output
+    block_size = 256         # medium context length
+    max_iters = 4000         # medium-length local training
+    eval_interval = 50       # periodic progress output
     learning_rate = 2e-4     # base LR
-    warmup_iters = 10        # shorter warmup for short runs
+    warmup_iters = 40        # shorter warmup for medium runs
     lr_decay_iters = max_iters
     min_lr = 2e-5
-    eval_iters = 5
+    eval_iters = 10
     
     # Device configuration
     device = get_default_device()
@@ -84,9 +84,9 @@ def train_conversation_model():
     config = GPTConfig()
     config.block_size = block_size
     config.vocab_size = 8192      # train tokenizer to this size (updated below if loading)
-    config.n_layer = 4
-    config.n_head = 4
-    config.n_embd = 128
+    config.n_layer = 6
+    config.n_head = 6
+    config.n_embd = 384
     config.dropout = 0.1
     config.bias = True
     # Modern features from upgraded model
@@ -229,7 +229,7 @@ def train_conversation_model():
                 
                 # Save to models directory
                 os.makedirs('models', exist_ok=True)
-                torch.save(checkpoint, 'models/pico_gpt_conversation.pt')
+                torch.save(checkpoint, 'models/pico_gpt_conversation_quick.pt')
                 print(f"  -> Saved new best model (val loss: {best_val_loss:.4f})")
             else:
                 patience += 1
@@ -256,7 +256,7 @@ def train_conversation_model():
     print(f"\n*** Conversation training completed! ***")
     print(f"Total time: {total_time:.1f} seconds ({total_time/60:.1f} minutes)")
     print(f"Best validation loss: {best_val_loss:.4f}")
-    print(f"Model saved as: models/pico_gpt_conversation.pt")
+    print(f"Model saved as: models/pico_gpt_conversation_quick.pt")
     
     # Test conversation generation
     print(f"\n*** Testing conversation generation... ***")
@@ -295,7 +295,7 @@ def train_conversation_model():
             print(f"Assistant: [No response generated]")
     
     print(f"\n*** Conversation model ready! ***")
-    print(f"Use 'python cli/cli_fast.py --model models/pico_gpt_conversation.pt' to chat!")
+    print(f"Use 'python cli/cli_fast.py --model models/pico_gpt_conversation_quick.pt' to chat!")
 
 
 if __name__ == "__main__":

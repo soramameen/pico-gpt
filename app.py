@@ -13,13 +13,14 @@ import sys
 sys.path.append('./src')
 from pico_gpt import GPT, GPTConfig
 from tokenizer import SimpleTokenizer
+from device_utils import get_default_device
 
 class PicoGPTChat:
     def __init__(self):
         self.model = None
         self.tokenizer = None
         self.config = None
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = get_default_device()
         self.load_model()
     
     def load_model(self):

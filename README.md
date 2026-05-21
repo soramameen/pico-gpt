@@ -1,287 +1,287 @@
 # 🤖 Pico-GPT
 
-A minimal, educational implementation of the GPT (Generative Pre-trained Transformer) architecture in PyTorch with clean, professional project structure. This project provides a complete, well-documented codebase for understanding how GPT models work under the hood.
+PyTorch で GPT（Generative Pre-trained Transformer）アーキテクチャを学ぶための、ミニマルで教育向けの実装です。構成は整理されており、コードを通して GPT モデルの内部動作を理解しやすくなっています。
 
-## 🌟 Features
+## 🌟 特徴
 
-- **Complete GPT Architecture**: Multi-head self-attention, position embeddings, layer normalization
-- **Professional Structure**: Organized by purpose with src/, training/, cli/, tests/
-- **Multiple Interfaces**: Interactive CLI, Gradio web app, direct generation, Python API
-- **Optimized Training**: Ultra-fast conversation training (16 seconds)
-- **GPU Acceleration**: Automatic CUDA detection and usage
-- **Configurable Models**: Easily adjust layers, heads, embedding dimensions
-- **Text Generation**: Autoregressive generation with temperature and top-k sampling
-- **Web Interface**: Gradio app for easy deployment and sharing
-- **Hugging Face Integration**: Model upload and deployment scripts
-- **Educational Examples**: Comprehensive examples and documentation
+- **完全な GPT アーキテクチャ**: Multi-head self-attention、position embeddings、layer normalization を実装
+- **プロフェッショナルな構成**: `src/`、`training/`、`cli/`、`tests/` など用途ごとに整理
+- **複数のインターフェース**: 対話型 CLI、Gradio Web アプリ、直接生成、Python API
+- **最適化された学習**: 高速な会話モデル学習（16 秒）
+- **GPU アクセラレーション**: CUDA を自動検出して利用
+- **設定可能なモデル**: 層数、head 数、埋め込み次元を簡単に調整可能
+- **テキスト生成**: temperature と top-k sampling による自己回帰生成
+- **Web インターフェース**: 配布や共有がしやすい Gradio アプリ
+- **Hugging Face 連携**: モデルのアップロードとデプロイ用スクリプトを同梱
+- **教育向けサンプル**: 充実した例とドキュメント
 
-## 🚀 Live Demo
+## 🚀 ライブデモ
 
-**Try the deployed model:** [Pico-GPT Conversational on Hugging Face](https://huggingface.co/jemico/pico-gpt-conversational)
+**デプロイ済みモデルを試す:** [Pico-GPT Conversational on Hugging Face](https://huggingface.co/jemico/pico-gpt-conversational)
 
-## 📋 Requirements
+## 📋 要件
 
 - Python 3.7+
 - PyTorch 1.12.0+
 - NumPy 1.21.0+
 - Regex 2022.1.18+
 
-## 📁 Project Structure
+## 📁 プロジェクト構成
 
-```
+```text
 pico-gpt/
-├── 📁 src/                      # Core implementation
-│   ├── pico_gpt.py             # Main GPT model & architecture
-│   ├── tokenizer.py            # Simple & BPE tokenizers
-│   ├── fast_tokenizer.py       # Optimized GPT-2 style tokenizer
+├── 📁 src/                      # コア実装
+│   ├── pico_gpt.py             # メイン GPT モデルとアーキテクチャ
+│   ├── tokenizer.py            # Simple / BPE tokenizer
+│   ├── fast_tokenizer.py       # 最適化された GPT-2 風 tokenizer
 │   └── __init__.py
 │
-├── 📁 training/                 # Training scripts
-│   └── train_conversation.py   # 🌟 BEST: Conversation model training
+├── 📁 training/                 # 学習スクリプト
+│   └── train_conversation.py   # 🌟 BEST: 会話モデルの学習
 │
-├── 📁 cli/                      # User interfaces
-│   ├── cli_client.py           # 🌟 MAIN: Interactive chat CLI
-│   └── generate.py             # Simple text generation
+├── 📁 cli/                      # ユーザーインターフェース
+│   ├── cli_client.py           # 🌟 MAIN: 対話型チャット CLI
+│   └── generate.py             # シンプルなテキスト生成
 │
-├── 📁 models/                   # Trained models
-│   └── pico_gpt_conversation.pt # 🌟 Conversation model (26.2M params)
+├── 📁 models/                   # 学習済みモデル
+│   └── pico_gpt_conversation.pt # 🌟 会話モデル（26.2M params）
 │
-├── 📁 datasets/                 # Training data & tokenizers
-│   ├── clean_conversation_data.txt      # 🌟 Clean chat data
-│   ├── fast_tokenizer_gpt2_8000.pkl    # 🌟 Optimized tokenizer
-│   ├── combined_enhanced_data.txt       # Enhanced training data
-│   ├── comprehensive_conversations.txt  # Comprehensive dialogue data
-│   ├── conversation_training.txt        # Core training conversations
-│   ├── smart_reasoning_data.txt         # Advanced reasoning examples
+├── 📁 datasets/                 # 学習データと tokenizer
+│   ├── clean_conversation_data.txt      # 🌟 クリーンなチャットデータ
+│   ├── fast_tokenizer_gpt2_8000.pkl    # 🌟 最適化 tokenizer
+│   ├── combined_enhanced_data.txt       # 拡張学習データ
+│   ├── comprehensive_conversations.txt  # 包括的な対話データ
+│   ├── conversation_training.txt        # コア学習会話データ
+│   ├── smart_reasoning_data.txt         # 高度な推論例
 │   └── [other datasets...]
 │
-├── 📁 tests/                    # Test & example scripts
-│   ├── example.py              # Basic functionality demo
-│   ├── test_conversation.py    # Conversation testing
-│   ├── debug_conversation.py   # Debugging tools
-│   └── test_train.py           # Training verification
+├── 📁 tests/                    # テストとサンプルスクリプト
+│   ├── example.py              # 基本機能デモ
+│   ├── test_conversation.py    # 会話テスト
+│   ├── debug_conversation.py   # デバッグツール
+│   └── test_train.py           # 学習確認
 │
-├── 📁 scripts/                  # Utility scripts
-│   ├── create_clean_conversation_data.py  # Data preprocessing
-│   ├── create_conversation_data.py        # Conversation generation
-│   ├── create_smart_dataset.py           # Smart dataset creation
-│   ├── download_dataset.py               # Dataset downloading
-│   ├── main.py                           # Main entry point
-│   └── run.py                            # Simple runner
+├── 📁 scripts/                  # ユーティリティスクリプト
+│   ├── create_clean_conversation_data.py  # データ前処理
+│   ├── create_conversation_data.py        # 会話データ生成
+│   ├── create_smart_dataset.py           # スマートデータセット作成
+│   ├── download_dataset.py               # データセット取得
+│   ├── main.py                           # メインエントリーポイント
+│   └── run.py                            # シンプルランナー
 │
-├── 📁 benchmarks/               # Performance testing
-│   ├── benchmark_cuda_vs_cpu.py      # CUDA vs CPU benchmarking
-│   ├── benchmark_large_model.py      # Large model performance
-│   └── test_large_model.py           # Large model testing
+├── 📁 benchmarks/               # 性能測定
+│   ├── benchmark_cuda_vs_cpu.py      # CUDA と CPU の比較
+│   ├── benchmark_large_model.py      # 大規模モデル性能測定
+│   └── test_large_model.py           # 大規模モデルテスト
 │
-├── 📄 app.py                    # 🌟 Gradio web interface
-├── 📄 setup.py                  # Package configuration
-├── 📄 requirements.txt          # Python dependencies
-├── 📄 upload_to_hf.py           # Hugging Face upload script
+├── 📄 app.py                    # 🌟 Gradio Web インターフェース
+├── 📄 setup.py                  # パッケージ設定
+├── 📄 requirements.txt          # Python 依存関係
+├── 📄 upload_to_hf.py           # Hugging Face アップロードスクリプト
 ├── 📄 README.md.model           # Hugging Face model card
-├── 📄 run_cli.ps1               # Windows PowerShell launcher
-└── 📄 README.md                 # This file
+├── 📄 run_cli.ps1               # Windows PowerShell ランチャー
+└── 📄 README.md                 # このファイル
 ```
 
-## 🚀 Quick Start
+## 🚀 クイックスタート
 
-### 1. Installation
+### 1. インストール
 
 ```bash
-# Clone the repository
+# リポジトリをクローン
 git clone <your-repo-url>
 cd pico-gpt
 
-# Install dependencies
+# 依存関係をインストール
 pip install -r requirements.txt
 ```
 
-### 2. Interactive Chat (Recommended)
+### 2. 対話チャット（推奨）
 
-**Command Line Interface:**
+**コマンドラインインターフェース:**
 ```bash
-# Using main scripts
+# メインスクリプト経由
 python scripts/run.py
 python scripts/main.py
 
-# Using CLI directly
+# CLI を直接実行
 python cli/cli_client.py
 
 # Windows PowerShell
 .\run_cli.ps1
 ```
 
-**Web Interface (Gradio):**
+**Web インターフェース（Gradio）:**
 ```bash
-# Run local web interface
+# ローカル Web インターフェースを起動
 python app.py
 
-# Then open http://localhost:7860
+# その後 http://localhost:7860 を開く
 ```
 
-**Interactive CLI Features:**
-- 💬 **Conversation Mode** - Maintains context across exchanges
-- 🔄 **Single-Prompt Mode** - Independent text generation
-- ⚙️ **Adjustable Settings** - Temperature, top-k, max tokens
-- 📝 **Command System** - `/help`, `/settings`, `/clear`, etc.
-- 💾 **History Support** - Command history with readline
+**対話型 CLI の機能:**
+- 💬 **Conversation Mode** - やり取りをまたいで文脈を保持
+- 🔄 **Single-Prompt Mode** - 独立したテキスト生成
+- ⚙️ **Adjustable Settings** - temperature、top-k、max tokens を調整可能
+- 📝 **Command System** - `/help`、`/settings`、`/clear` など
+- 💾 **History Support** - readline による履歴サポート
 
-### 3. Train a Model
+### 3. モデルを学習する
 
 ```bash
-# Train the conversation model
+# 会話モデルを学習
 python training/train_conversation.py
 ```
 
-### 4. Generate Text
+### 4. テキストを生成する
 
 ```bash
-# Simple generation
+# シンプルな生成
 python cli/generate.py --prompt "Hello world"
 
-# Advanced generation with parameters
+# パラメータ付き生成
 python cli/generate.py --prompt "Python is" --max_tokens 50 --temperature 0.8 --top_k 10
 
-# From scripts directory
+# scripts ディレクトリ経由
 python scripts/main.py generate --prompt "Once upon a time"
 ```
 
-### 5. Test the Implementation
+### 5. 実装をテストする
 
 ```bash
-# Basic functionality test
+# 基本機能テスト
 python tests/example.py
 
-# Training test
+# 学習テスト
 python tests/test_train.py
 ```
 
-### 6. Deploy to Hugging Face
+### 6. Hugging Face にデプロイする
 
 ```bash
-# Create model card and upload instructions
+# model card とアップロード手順を生成
 python upload_to_hf.py
 
-# Follow the generated instructions to upload your model
+# 生成された手順に従ってモデルをアップロード
 ```
 
-## 💾 Model Files
+## 💾 モデルファイル
 
 ### **Active Models**
-- **`pico_gpt_conversation.pt`** - **Primary conversation model**
-  - 26.2M parameters (8 layers, 8 heads, 512 embedding dim)
-  - **Default model** used by CLI
-  - Optimized for natural conversations
+- **`pico_gpt_conversation.pt`** - **主要な会話モデル**
+  - 26.2M parameters（8 layers、8 heads、512 embedding dim）
+  - CLI で使われる**デフォルトモデル**
+  - 自然な会話向けに最適化
 
-- **`pico_gpt_large.pt`** - **Large capability model**
-  - 88.9M parameters (12 layers, 12 heads, 768 embedding dim)
-  - Maximum model capability
-  - Use for complex tasks requiring more intelligence
+- **`pico_gpt_large.pt`** - **高性能な大型モデル**
+  - 88.9M parameters（12 layers、12 heads、768 embedding dim）
+  - 最大クラスのモデル性能
+  - より複雑なタスク向け
 
-### **Model Comparison**
+### **モデル比較**
 | Model | Parameters | Size | Use Case |
 |-------|------------|------|---------|
-| `pico_gpt_conversation.pt` | 26.2M | ~100MB | 🌟 **Best for conversation** |
-| `pico_gpt_large.pt` | 88.9M | ~350MB | Maximum capability, complex tasks |
+| `pico_gpt_conversation.pt` | 26.2M | ~100MB | 🌟 **会話向けに最適** |
+| `pico_gpt_large.pt` | 88.9M | ~350MB | 最大性能、複雑なタスク向け |
 
-## 🎯 Command Line Interface
+## 🎯 コマンドラインインターフェース
 
-### Interactive CLI Commands
+### 対話型 CLI コマンド
 
-When in conversation mode, you can use these commands:
+会話モード中に使えるコマンド:
 
-- `/help` - Show command reference
-- `/settings` - View/modify generation parameters
-- `/clear` - Clear screen
-- `/reset` - Clear conversation context
-- `/status` - Show conversation status
-- `/mode` - Toggle conversation/single-prompt modes
-- `/info` - Show model information
-- `/load` - Load a different model
-- `/quit` - Exit program
+- `/help` - コマンド一覧を表示
+- `/settings` - 生成パラメータを表示/変更
+- `/clear` - 画面をクリア
+- `/reset` - 会話コンテキストをリセット
+- `/status` - 会話状態を表示
+- `/mode` - 会話/単発プロンプトモードを切り替え
+- `/info` - モデル情報を表示
+- `/load` - 別のモデルを読み込む
+- `/quit` - 終了
 
-### CLI Command Line Options
+### CLI のコマンドラインオプション
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--model` / `-m` | Path to model file | `pico_gpt_conversation.pt` |
-| `--device` / `-d` | Device (cpu/cuda/auto) | `auto` |
-| `--max-tokens` / `-t` | Maximum tokens to generate | `100` |
+| `--model` / `-m` | モデルファイルのパス | `pico_gpt_conversation.pt` |
+| `--device` / `-d` | 使用デバイス（cpu/cuda/auto） | `auto` |
+| `--max-tokens` / `-t` | 生成する最大トークン数 | `100` |
 | `--temperature` / `-T` | Sampling temperature | `0.8` |
 | `--top-k` / `-k` | Top-k sampling | `20` |
-| `--prompt` / `-p` | Single prompt mode | None |
+| `--prompt` / `-p` | 単発プロンプトモード | None |
 
-### Examples
+### 例
 
 ```bash
-# Interactive conversation
+# 対話型会話
 python cli/cli_client.py
 
-# Windows PowerShell with custom settings
+# Windows PowerShell でカスタム設定
 .\cli\run_cli.ps1 -Model "pico_gpt_large.pt" -MaxTokens 200 -Temperature 0.9
 
-# Creative writing (high temperature)
+# 創作向け（高 temperature）
 python cli/generate.py --prompt "Once upon a time" --temperature 1.2 --max_tokens 200
 
-# Factual completion (low temperature)
+# 事実寄り補完（低 temperature）
 python cli/generate.py --prompt "Python is a programming language" --temperature 0.3
 
-# Different model
+# 別モデルを使う
 python cli/cli_client.py --model models/pico_gpt_conversation.pt --prompt "Test conversation"
 ```
 
-## 🔧 Configuration
+## 🔧 設定
 
-### Model Architecture
+### モデルアーキテクチャ
 
-Edit the `GPTConfig` class in `src/pico_gpt.py` or create custom configs:
+`src/pico_gpt.py` の `GPTConfig` クラスを編集するか、カスタム設定を作成します:
 
 ```python
 from src.pico_gpt import GPTConfig
 
-# Small model (fast training)
+# Small model（高速学習）
 config = GPTConfig()
-config.block_size = 256      # Context length
-config.vocab_size = 50304    # Vocabulary size
-config.n_layer = 6          # Number of transformer layers
-config.n_head = 6           # Number of attention heads
-config.n_embd = 384         # Embedding dimension
-config.dropout = 0.2        # Dropout rate
+config.block_size = 256      # コンテキスト長
+config.vocab_size = 50304    # 語彙サイズ
+config.n_layer = 6           # transformer 層数
+config.n_head = 6            # attention head 数
+config.n_embd = 384          # 埋め込み次元
+config.dropout = 0.2         # dropout 率
 
-# Tiny model (very fast)
+# Tiny model（超高速）
 config.n_layer = 2
 config.n_head = 2
 config.n_embd = 64
 ```
 
-### Training Parameters
+### 学習パラメータ
 
-Modify training scripts for different setups:
+異なる設定で学習したい場合は学習スクリプトを調整してください:
 
 ```python
-# Training hyperparameters
-batch_size = 16             # Batch size
-learning_rate = 3e-4        # Learning rate
-max_iters = 5000           # Training iterations
-eval_interval = 1000       # Validation frequency
+# 学習ハイパーパラメータ
+batch_size = 16             # バッチサイズ
+learning_rate = 3e-4        # 学習率
+max_iters = 5000            # 学習反復回数
+eval_interval = 1000        # 検証頻度
 ```
 
-## 🌐 Web Interface
+## 🌐 Web インターフェース
 
-The Gradio web interface provides an easy-to-use chat interface:
+Gradio の Web インターフェースを使うと、簡単にチャット UI を利用できます:
 
 ```bash
-# Start the web interface
+# Web インターフェースを起動
 python app.py
 ```
 
-**Features:**
-- Interactive chat interface
-- Adjustable temperature and token length
-- Real-time conversation
-- Deployable to Hugging Face Spaces
+**機能:**
+- 対話型チャットインターフェース
+- temperature とトークン長の調整
+- リアルタイム会話
+- Hugging Face Spaces へデプロイ可能
 
-## 📚 Usage Examples
+## 📚 使用例
 
 ### Python API
 
@@ -290,13 +290,13 @@ from src.pico_gpt import GPT, GPTConfig
 from src.fast_tokenizer import GPT2LikeTokenizer
 import torch
 
-# Load model
+# モデルを読み込む
 checkpoint = torch.load('models/pico_gpt_conversation.pt', weights_only=False)
 model = GPT(checkpoint['config'])
 model.load_state_dict(checkpoint['model_state_dict'])
 tokenizer = checkpoint['tokenizer']
 
-# Generate text
+# テキスト生成
 model.eval()
 context = torch.tensor(tokenizer.encode("Hello"), dtype=torch.long).unsqueeze(0)
 generated = model.generate(context, max_new_tokens=100, temperature=0.8, top_k=10)
@@ -304,7 +304,7 @@ result = tokenizer.decode(generated[0].tolist())
 print(result)
 ```
 
-### Custom Training Data
+### カスタム学習データ
 
 ```python
 # training/train_custom.py
@@ -312,31 +312,31 @@ import torch
 from src.pico_gpt import GPT, GPTConfig
 from src.tokenizer import SimpleTokenizer
 
-# Load your text data
+# 自分のテキストデータを読み込む
 with open('your_data.txt', 'r') as f:
     text = f.read()
 
-# Create tokenizer and encode
+# tokenizer を作成してエンコード
 tokenizer = SimpleTokenizer()
 data = torch.tensor(tokenizer.encode(text), dtype=torch.long)
 
-# Train model (see training scripts for full examples)
+# モデルを学習（詳細は training scripts を参照）
 ```
 
-## ⚡ Performance Benchmarking
+## ⚡ パフォーマンス測定
 
-### CUDA vs CPU Performance
+### CUDA vs CPU の性能比較
 
 ```bash
-# Benchmark inference performance
+# 推論性能を計測
 python benchmarks/benchmark_large_model.py
 
-# Training performance comparison
+# 学習性能を比較
 python benchmarks/benchmark_cuda_vs_cpu.py
 ```
 
-**Example Results (RTX 3080 Ti):**
-```
+**実行結果例（RTX 3080 Ti）:**
+```text
 Large Model CUDA vs CPU Inference Benchmark
 ============================================================
 Model: 25.7M parameters (8 layers, 8 heads, 512 embedding dim)
@@ -355,29 +355,29 @@ Memory Usage:
   CUDA Allocated: 981.1 MB
 ```
 
-## 🚀 Deployment
+## 🚀 デプロイ
 
 ### Hugging Face Spaces
 
-Deploy the web interface to Hugging Face Spaces:
+Web インターフェースを Hugging Face Spaces にデプロイする手順:
 
-1. Create a new Space on Hugging Face
-2. Upload `app.py`, `src/`, and your model file
-3. Set runtime to "Python" with Gradio SDK
-4. Your model will be available as a web app!
+1. Hugging Face で新しい Space を作成
+2. `app.py`、`src/`、モデルファイルをアップロード
+3. ランタイムを「Python」、SDK を Gradio に設定
+4. Web アプリとして公開完了
 
-### Local Sharing
+### ローカル共有
 
 ```bash
-# Share locally via Gradio
-python app.py  # Automatically creates shareable link
+# Gradio でローカル共有
+python app.py  # 共有用リンクが自動作成されます
 ```
 
-## 🎓 Educational Notes
+## 🎓 学習メモ
 
-### Architecture Diagram
+### アーキテクチャ図
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                              PICO GPT ARCHITECTURE                      │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -580,68 +580,68 @@ python app.py  # Automatically creates shareable link
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Understanding the Architecture
+### アーキテクチャの理解
 
-1. **Transformer Blocks**: Each block contains self-attention + MLP
-2. **Causal Attention**: Prevents looking at future tokens
-3. **Position Embeddings**: Help model understand token order
-4. **Layer Normalization**: Stabilizes training
-5. **Weight Tying**: Input/output embeddings share weights
+1. **Transformer Blocks**: 各 block は self-attention + MLP で構成
+2. **Causal Attention**: 未来の token を参照できないようにする仕組み
+3. **Position Embeddings**: token の順序情報を与える
+4. **Layer Normalization**: 学習を安定化
+5. **Weight Tying**: 入力/出力 embedding の重みを共有
 
-### Key Components
+### 主なコンポーネント
 
-- `CausalSelfAttention`: Implements masked multi-head attention
-- `MLP`: Feed-forward network with GELU activation
-- `Block`: Complete transformer block
-- `GPT`: Full model with embeddings and language modeling head
+- `CausalSelfAttention`: masked multi-head attention を実装
+- `MLP`: GELU 活性化を持つ feed-forward network
+- `Block`: 完全な transformer block
+- `GPT`: embeddings と language modeling head を含む全体モデル
 
-### Training Process
+### 学習プロセス
 
-1. **Tokenization**: Convert text to integer sequences
-2. **Batching**: Create input/target pairs
-3. **Forward Pass**: Compute predictions and loss
-4. **Backpropagation**: Update model weights
-5. **Generation**: Sample from learned distribution
+1. **Tokenization**: テキストを整数列へ変換
+2. **Batching**: 入力/ターゲットのペアを作成
+3. **Forward Pass**: 予測と損失を計算
+4. **Backpropagation**: モデル重みを更新
+5. **Generation**: 学習済み分布からサンプリング
 
-## ⚡ Performance Tips
+## ⚡ パフォーマンス向上のヒント
 
-### For Faster Training
-- Reduce `n_layer`, `n_head`, `n_embd`
-- Use smaller `block_size` and `batch_size`
-- Enable GPU if available: `device = 'cuda'`
+### 学習を高速化するには
+- `n_layer`、`n_head`、`n_embd` を小さくする
+- `block_size` と `batch_size` を小さくする
+- GPU が使えるなら有効化する: `device = 'cuda'`
 
-### For Better Generation
-- Train longer (more iterations)
-- Use larger vocabulary
-- Increase model size
-- Tune temperature and top_k
+### 生成品質を上げるには
+- より長く学習する（反復回数を増やす）
+- 語彙を大きくする
+- モデルサイズを増やす
+- temperature と `top_k` を調整する
 
-### Memory Optimization
-- Reduce batch size if out of memory
-- Use gradient checkpointing for large models
-- Consider mixed precision training
+### メモリ最適化
+- メモリ不足なら batch size を下げる
+- 大規模モデルでは gradient checkpointing を使う
+- mixed precision training を検討する
 
-## 🐛 Troubleshooting
+## 🐛 トラブルシューティング
 
-### Common Issues
+### よくある問題
 
 **"CUDA out of memory"**
 ```bash
-# Use CPU or reduce batch size
+# CPU を使うか batch size を減らす
 python cli/cli_client.py --device cpu
-# Or reduce model size in config
+# または config でモデルサイズを小さくする
 ```
 
 **"Model file not found"**
 ```bash
-# Train a model first
+# 先にモデルを学習する
 python training/train_small.py
 ```
 
-**Poor generation quality**
+**生成品質が低い**
 ```bash
-# Train longer or with more data
-# Use train_final.py for best conversation quality
+# より長く、またはより多くのデータで学習する
+# 最良の会話品質には train_final.py を使用
 ```
 
 **PowerShell Execution Policy (Windows)**
@@ -649,40 +649,40 @@ python training/train_small.py
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-## ✅ Test Results
+## ✅ テスト結果
 
-All core functionality has been verified:
+すべてのコア機能は検証済みです。
 
-### Verified Features
-✅ **Transformer Architecture** - Multi-head self-attention with causal masking  
-✅ **Training Pipeline** - Proper data batching, AdamW optimizer, checkpointing  
-✅ **Text Generation** - Autoregressive generation with temperature/top-k sampling  
-✅ **Tokenization** - Character-level and BPE tokenizers  
-✅ **CLI Interface** - Interactive conversation and single-prompt modes  
-✅ **GPU Support** - CUDA acceleration with automatic detection  
+### 検証済み機能
+✅ **Transformer Architecture** - causal masking 付き multi-head self-attention  
+✅ **Training Pipeline** - 適切なデータ batching、AdamW optimizer、checkpointing  
+✅ **Text Generation** - temperature/top-k sampling による自己回帰生成  
+✅ **Tokenization** - 文字単位 tokenizer と BPE tokenizer  
+✅ **CLI Interface** - 対話型会話モードと単発プロンプトモード  
+✅ **GPU Support** - 自動検出付き CUDA アクセラレーション  
 
-### Performance Characteristics
-- **Training Speed**: 16 seconds for conversation model, ~143 tokens/second on CPU
-- **Memory Usage**: Efficient for both small and large models
-- **Convergence**: Good learning curves observed
-- **Generation Quality**: Coherent outputs for trained models
+### パフォーマンス特性
+- **Training Speed**: 会話モデルは 16 秒、CPU で約 143 tokens/second
+- **Memory Usage**: 小規模/大規模モデルのどちらにも効率的
+- **Convergence**: 良好な学習曲線を確認
+- **Generation Quality**: 学習済みモデルで一貫した出力
 
-## 📈 What's New (Post-Refactor)
+## 📈 更新内容（リファクタ後）
 
-### **Before Refactoring** ❌
-- Everything scattered in root folder
-- Training scripts mixed with core code
-- Hard to navigate and maintain
-- Import path chaos
+### **リファクタ前** ❌
+- すべてがルートフォルダに散在
+- 学習スクリプトとコアコードが混在
+- ナビゲーションと保守が困難
+- import path が混乱
 
-### **After Refactoring** ✅
-- **Clean structure**: Logical folder organization
-- **Separated concerns**: Each folder has one purpose
-- **Professional**: Industry-standard project layout
-- **Maintainable**: Easy to find and modify code
-- **Modular**: Components can be imported independently
+### **リファクタ後** ✅
+- **Clean structure**: 論理的なフォルダ構成
+- **Separated concerns**: 各フォルダの役割が明確
+- **Professional**: 一般的で扱いやすいプロジェクトレイアウト
+- **Maintainable**: コードを見つけやすく修正しやすい
+- **Modular**: 各コンポーネントを独立して import 可能
 
-## 📝 Integration Examples
+## 📝 統合例
 
 ### Batch Scripts (Windows)
 ```batch
@@ -699,21 +699,21 @@ function Generate-Text {
 }
 ```
 
-## 📝 License
+## 📝 ライセンス
 
-This project is open source and available under the MIT License.
+このプロジェクトはオープンソースで、MIT License のもとで利用できます。
 
-## 🤝 Contributing
+## 🤝 コントリビュート
 
-Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
+Issue、機能要望、Pull Request を歓迎します。
 
 ---
 
 *Happy training! 🚀*
 
-**Ready for:**
-- Educational purposes and learning transformers
-- Experimentation with GPT architectures  
-- Small-scale language modeling tasks
-- Research and development
-- Production use with proper scaling
+**用途例:**
+- 教育用途・transformer 学習
+- GPT アーキテクチャの実験  
+- 小規模な言語モデリングタスク
+- 研究開発
+- 適切にスケールさせた本番利用

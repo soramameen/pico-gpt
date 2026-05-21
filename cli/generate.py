@@ -12,6 +12,7 @@ sys.modules['pico_gpt'] = pico_gpt
 sys.modules['tokenizer'] = tokenizer
 
 from src.pico_gpt import GPT
+from src.device_utils import get_default_device
 import argparse
 
 
@@ -73,7 +74,7 @@ def main():
     
     args = parser.parse_args()
     
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = get_default_device()
     print(f"Using device: {device}")
     
     try:

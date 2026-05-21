@@ -65,16 +65,16 @@ def train_conversation_model():
     
     # Hyperparameters (lightweight debug-friendly settings)
     micro_batch_size = 2     # per-step micro-batch
-    grad_accum_steps = 2     # keep iterations short for local verification
+    grad_accum_steps = 4     # medium accumulation for ~10 minute local runs
     batch_size = micro_batch_size  # keep API usage
-    block_size = 128         # shorter context for faster checks
-    max_iters = 20           # quick local verification
-    eval_interval = 5        # frequent progress output
+    block_size = 256         # medium context length
+    max_iters = 4000         # medium-length local training
+    eval_interval = 50       # periodic progress output
     learning_rate = 2e-4     # base LR
-    warmup_iters = 10        # shorter warmup for short runs
+    warmup_iters = 40        # shorter warmup for medium runs
     lr_decay_iters = max_iters
     min_lr = 2e-5
-    eval_iters = 5
+    eval_iters = 10
     
     # Device configuration
     device = get_default_device()
@@ -84,9 +84,9 @@ def train_conversation_model():
     config = GPTConfig()
     config.block_size = block_size
     config.vocab_size = 8192      # train tokenizer to this size (updated below if loading)
-    config.n_layer = 4
-    config.n_head = 4
-    config.n_embd = 128
+    config.n_layer = 6
+    config.n_head = 6
+    config.n_embd = 384
     config.dropout = 0.1
     config.bias = True
     # Modern features from upgraded model
@@ -94,7 +94,7 @@ def train_conversation_model():
     config.use_rope = True
     config.mlp_type = 'swiglu'
     
-    print(f"Conversation model configuration:")
+    print(f"JA conversation model configuration:")
     print(f"  - Layers: {config.n_layer}")
     print(f"  - Heads: {config.n_head}")
     print(f"  - Embedding dim: {config.n_embd}")
@@ -102,7 +102,7 @@ def train_conversation_model():
     print(f"  - Vocabulary size: {config.vocab_size}")
     
     # Load clean conversational data
-    data_path = os.path.join('datasets', 'large_conversation_training.txt')
+    data_path = os.path.join('datasets', 'japanese_conversation_training.txt')
     if not os.path.exists(data_path):
         print(f"Clean conversation dataset not found: {data_path}")
         return
@@ -132,7 +132,7 @@ def train_conversation_model():
     
     # Load/train Modern BPE tokenizer
     tokenizer = ModernBPETokenizer(vocab_size=config.vocab_size)
-    tokenizer_path = os.path.join('models', 'modern_tokenizer.json')
+    tokenizer_path = os.path.join('models', 'modern_tokenizer_ja_quick.json')
     if os.path.exists(tokenizer_path):
         tokenizer.load(tokenizer_path)
         print(f"Loaded tokenizer from: {tokenizer_path}")
@@ -229,7 +229,7 @@ def train_conversation_model():
                 
                 # Save to models directory
                 os.makedirs('models', exist_ok=True)
-                torch.save(checkpoint, 'models/pico_gpt_conversation.pt')
+                torch.save(checkpoint, 'models/pico_gpt_conversation_ja_quick.pt')
                 print(f"  -> Saved new best model (val loss: {best_val_loss:.4f})")
             else:
                 patience += 1
@@ -253,24 +253,24 @@ def train_conversation_model():
         scaler.update()
     
     total_time = time.time() - start_time
-    print(f"\n*** Conversation training completed! ***")
+    print(f"\n*** JA conversation training completed! ***")
     print(f"Total time: {total_time:.1f} seconds ({total_time/60:.1f} minutes)")
     print(f"Best validation loss: {best_val_loss:.4f}")
-    print(f"Model saved as: models/pico_gpt_conversation.pt")
+    print(f"Model saved as: models/pico_gpt_conversation_ja_quick.pt")
     
     # Test conversation generation
     print(f"\n*** Testing conversation generation... ***")
     model.eval()
     
     conversation_prompts = [
-        "Human: Hello, how are you?",
-        "Human: Can you help me with something?",
-        "Human: What's your favorite color?",
-        "Human: I'm feeling a bit stressed today",
-        "Human: Tell me about yourself",
-        "Human: Good morning!",
-        "Human: Thanks for your help",
-        "Human: What can you do?",
+        "Human: おはようございます",
+        "Human: 手伝ってもらえますか？",
+        "Human: 好きな色は何ですか？",
+        "Human: 今日は少し疲れています",
+        "Human: 自己紹介してください",
+        "Human: こんにちは！",
+        "Human: ありがとう",
+        "Human: 何ができますか？",
     ]
     
     for prompt in conversation_prompts:
@@ -294,8 +294,8 @@ def train_conversation_model():
         else:
             print(f"Assistant: [No response generated]")
     
-    print(f"\n*** Conversation model ready! ***")
-    print(f"Use 'python cli/cli_fast.py --model models/pico_gpt_conversation.pt' to chat!")
+    print(f"\n*** JA conversation model ready! ***")
+    print(f"Use 'python cli/cli_fast.py --model models/pico_gpt_conversation_ja_quick.pt' to chat!")
 
 
 if __name__ == "__main__":

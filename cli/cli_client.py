@@ -25,6 +25,7 @@ sys.modules['tokenizer'] = tokenizer
 
 from src.pico_gpt import GPT, GPTConfig
 from src.tokenizer import SimpleTokenizer
+from src.device_utils import get_default_device, get_supported_devices
 
 # Fix Windows console encoding issues
 if sys.platform == "win32":
@@ -39,7 +40,7 @@ class PicoGPTCLI:
     def __init__(self, model_path='pico_gpt_large.pt', device=None):
         """Initialize the CLI client"""
         self.model_path = model_path
-        self.device = device or ('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = device or get_default_device()
         self.model = None
         self.tokenizer = None
         self.config = None
@@ -144,6 +145,7 @@ class PicoGPTCLI:
             
             print(f"[SUCCESS] Model loaded successfully!")
             print(f"   Device: {self.device}")
+            print(f"   Available devices: {', '.join(get_supported_devices())}")
             print(f"   Parameters: {self.model.get_num_params():,}")
             print(f"   Vocab size: {self.config.vocab_size:,}")
             print(f"   Block size: {self.config.block_size}")
@@ -472,7 +474,7 @@ def main():
     parser = argparse.ArgumentParser(description='Pico GPT CLI Client')
     parser.add_argument('--model', '-m', default='pico_gpt_large.pt',
                         help='Path to model file (default: pico_gpt_large.pt)')
-    parser.add_argument('--device', '-d', choices=['cpu', 'cuda', 'auto'], default='auto',
+    parser.add_argument('--device', '-d', choices=['cpu', 'cuda', 'mps', 'auto'], default='auto',
                         help='Device to use (default: auto)')
     parser.add_argument('--max-tokens', '-t', type=int, default=100,
                         help='Maximum tokens to generate (default: 100)')
@@ -487,7 +489,7 @@ def main():
     
     # Determine device
     if args.device == 'auto':
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        device = get_default_device()
     else:
         device = args.device
     

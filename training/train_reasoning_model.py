@@ -17,6 +17,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.pico_gpt import GPT, GPTConfig
 from src.modern_tokenizer import ModernBPETokenizer
+from src.device_utils import get_default_device
 
 def get_batch(data, batch_size, block_size, device):
     ix = torch.randint(len(data) - block_size, (batch_size,))
@@ -63,7 +64,7 @@ def train():
     lr_decay_iters = max_iters
     min_lr = learning_rate / 10
     
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = get_default_device()
     print(f"Using device: {device}")
     
     # Check GPU memory
@@ -209,7 +210,8 @@ def train():
             if "out of memory" in str(e):
                 print(f"GPU out of memory at iteration {iter_num}")
                 print("Try reducing batch_size or model size")
-                torch.cuda.empty_cache()
+                if device == 'cuda':
+                    torch.cuda.empty_cache()
                 break
             else:
                 raise e
